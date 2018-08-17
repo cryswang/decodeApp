@@ -73,7 +73,7 @@ class decryptcommand(StreamingCommand):
     def stream(events):
 	for event in events:
 	    if type_ == "base64":
-		decrypt = self.b64(event[field]
+		decrypt = self.b64(event[field])
 
 	    elif type_ == "ascii":
 		decrypt = self.ascii(event[field])
