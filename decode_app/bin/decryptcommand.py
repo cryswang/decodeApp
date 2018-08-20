@@ -3,7 +3,8 @@
 import sys, re
 import base64
 import codecs
-from urllib.parse import unquote
+from urlparse import urlparse
+import splunklib.client as client
 from splunklib.searchcommands import dispatch, StreamingCommand, Configuration, Option, validators
 from itertools import cycle
 
@@ -55,17 +56,17 @@ class decryptcommand(StreamingCommand):
             if character.isalpha():
                 num = ord(character)
                 num += key
-                    if character.isupper():
-                        if num > ord('Z'):
-                            num -= 26
-                        elif num < ord('A'):
-                            num +=26
-                    elif character.islower():
-                        if num > ord('z'):
-                            num -= 26
-                        elif num < ord('a'):
-                            num += 26
-                    value += chr(num)
+                if character.isupper():
+                    if num > ord('Z'):
+                        num -= 26
+                    elif num < ord('A'):
+                        num +=26
+                elif character.islower():
+                    if num > ord('z'):
+                        num -= 26
+                    elif num < ord('a'):
+                        num += 26
+                value += chr(num)
             else:
                 value += character
         return value    
@@ -73,25 +74,25 @@ class decryptcommand(StreamingCommand):
     def stream(events):
 	for event in events:
 	    if type_ == "base64":
-		decrypt = self.b64(event[field]
+		decrypt = b64(event[field])
 
 	    elif type_ == "ascii":
-		decrypt = self.ascii(event[field])
+		decrypt = ascii(event[field])
 		
 	    elif type_ == "octal":
-		decrypt = self.octal(event[field])
+		decrypt = octal(event[field])
 	    
 	    elif type_ == "url":
-		decrypt = self.url(event[field])
+		decrypt = url(event[field])
 	    
 	    elif type_ == "rot13":
-		decrypt = self.url(event[field])
+		decrypt = url(event[field])
 
 	    elif type_ == "caesar":
-		decrypt = self.caesar(event[field], key)
+		decrypt = caesar(event[field], key)
 	    
 	    elif type_ == "xor":
-		decrypt = self.caesar(event[field], key)
+		decrypt = caesar(event[field], key)
 
 	    else:
 		raise ValueError('type not supported')
