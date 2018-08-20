@@ -3,12 +3,12 @@
 import sys, re
 import base64
 import codecs
-from urllib.parse import unquote
+import urllib
 from splunklib.searchcommands import dispatch, StreamingCommand, Configuration, Option, validators
 from itertools import cycle
 
 @Configuration()
-class decryptcommand(StreamingCommand):
+class decodeCommand(StreamingCommand):
     field = Option(name='field', require=True)
     type_ = Option(name='type', require=True)
     key = Option(name='key', require=False, default="0")
@@ -55,43 +55,46 @@ class decryptcommand(StreamingCommand):
             if character.isalpha():
                 num = ord(character)
                 num += key
-                    if character.isupper():
-                        if num > ord('Z'):
-                            num -= 26
-                        elif num < ord('A'):
-                            num +=26
-                    elif character.islower():
-                        if num > ord('z'):
-                            num -= 26
-                        elif num < ord('a'):
-                            num += 26
-                    value += chr(num)
+                if character.isupper():
+                    if num > ord('Z'):
+                        num -= 26
+                    elif num < ord('A'):
+                        num +=26
+                elif character.islower():
+                    if num > ord('z'):
+                        num -= 26
+                    elif num < ord('a'):
+                        num += 26
+                value += chr(num)
             else:
                 value += character
         return value    
 
-    def stream(events):
+    def stream(self, events):
+	#self.logger.debug('field: %s', self)
 	for event in events:
-	    if type_ == "base64":
-		decrypt = self.b64(event[field]
+	    if not field in event:
+		pass
+	    elif self.type_ == "base64":
+		decrypt = self.b64(event[self.field])
 
-	    elif type_ == "ascii":
-		decrypt = self.ascii(event[field])
+	    elif self.type_ == "ascii":
+		decrypt = self.ascii(event[self.field])
 		
-	    elif type_ == "octal":
-		decrypt = self.octal(event[field])
+	    elif self.type_ == "octal":
+		decrypt = self.octal(event[self.field])
 	    
-	    elif type_ == "url":
-		decrypt = self.url(event[field])
+	    elif self.type_ == "url":
+		decrypt = self.url(event[self.field])
 	    
-	    elif type_ == "rot13":
-		decrypt = self.url(event[field])
+	    elif self.type_ == "rot13":
+		decrypt = self.url(event[self.field])
 
-	    elif type_ == "caesar":
-		decrypt = self.caesar(event[field], key)
+	    elif self.type_ == "caesar":
+		decrypt = self.caesar(event[self.field], self.key)
 	    
-	    elif type_ == "xor":
-		decrypt = self.caesar(event[field], key)
+	    elif self.type_ == "xor":
+		decrypt = self.caesar(event[self.field], self.key)
 
 	    else:
 		raise ValueError('type not supported')
@@ -101,4 +104,4 @@ class decryptcommand(StreamingCommand):
 	return
 	
 if __name__ == "__main__":
-    dispatch(DecryptCommand, sys.argv, sys.stdin, sys.stdout, __name__)
+    dispatch(decodeCommand, sys.argv, sys.stdin, sys.stdout, __name__)

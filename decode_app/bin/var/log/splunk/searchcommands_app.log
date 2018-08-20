@@ -1,0 +1,32 @@
+[monitor:///opt/splunk/etc/apps/decode_app/bin/var/log/splunk]
+index = _internal
+2018-08-20 16:03:20,361, Level=ERROR, Pid=2157, Logger=decodeCommand, File=search_command.py, Line=342, Traceback (most recent call last):
+  File "/opt/splunk/etc/apps/decode_app/bin/splunklib/searchcommands/search_command.py", line 331, in process
+    raise NotImplementedError(message)
+NotImplementedError: Command decode appears to be statically configured and static configuration is unsupported by splunklib.searchcommands. Please ensure that default/commands.conf contains this stanza:
+[decode]
+filename = decodeCommand.py
+supports_getinfo = true
+supports_rawargs = true
+outputheader = true
+
+2018-08-20 16:19:43,255, Level=ERROR, Pid=2184, Logger=decodeCommand, File=search_command.py, Line=342, Traceback (most recent call last):
+  File "/opt/splunk/etc/apps/decode_app/bin/splunklib/searchcommands/search_command.py", line 331, in process
+    raise NotImplementedError(message)
+NotImplementedError: Command decode appears to be statically configured and static configuration is unsupported by splunklib.searchcommands. Please ensure that default/commands.conf contains this stanza:
+[decode]
+filename = decodeCommand.py
+supports_getinfo = true
+supports_rawargs = true
+outputheader = true
+
+2018-08-20 16:28:21,289, Level=ERROR, Pid=2195, Logger=decodeCommand, File=search_command.py, Line=342, Traceback (most recent call last):
+  File "/opt/splunk/etc/apps/decode_app/bin/splunklib/searchcommands/search_command.py", line 331, in process
+    raise NotImplementedError(message)
+NotImplementedError: Command decode appears to be statically configured and static configuration is unsupported by splunklib.searchcommands. Please ensure that default/commands.conf contains this stanza:
+[decode]
+filename = decodeCommand.py
+supports_getinfo = true
+supports_rawargs = true
+outputheader = true
+

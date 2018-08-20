@@ -19,7 +19,6 @@ from logging import getLogger, root, StreamHandler
 import os
 import sys
 
-
 def configure(name, path=None):
     """ Configure logging and return a logger and the location of its logging
     configuration file.
