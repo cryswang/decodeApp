@@ -3,12 +3,7 @@
 import sys, re
 import base64
 import codecs
-<<<<<<< HEAD:decode_app/bin/decodeCommand.py
 import urllib
-=======
-from urlparse import urlparse
-import splunklib.client as client
->>>>>>> 47059e9972ba413c7efef8b7e5834623308720d9:decode_app/bin/decryptcommand.py
 from splunklib.searchcommands import dispatch, StreamingCommand, Configuration, Option, validators
 from itertools import cycle
 
@@ -78,7 +73,6 @@ class decodeCommand(StreamingCommand):
     def stream(self, events):
 	#self.logger.debug('field: %s', self)
 	for event in events:
-<<<<<<< HEAD:decode_app/bin/decodeCommand.py
 	    if not field in event:
 		pass
 	    elif self.type_ == "base64":
@@ -101,28 +95,6 @@ class decodeCommand(StreamingCommand):
 	    
 	    elif self.type_ == "xor":
 		decrypt = self.caesar(event[self.field], self.key)
-=======
-	    if type_ == "base64":
-		decrypt = b64(event[field])
-
-	    elif type_ == "ascii":
-		decrypt = ascii(event[field])
-		
-	    elif type_ == "octal":
-		decrypt = octal(event[field])
-	    
-	    elif type_ == "url":
-		decrypt = url(event[field])
-	    
-	    elif type_ == "rot13":
-		decrypt = url(event[field])
-
-	    elif type_ == "caesar":
-		decrypt = caesar(event[field], key)
-	    
-	    elif type_ == "xor":
-		decrypt = caesar(event[field], key)
->>>>>>> 47059e9972ba413c7efef8b7e5834623308720d9:decode_app/bin/decryptcommand.py
 
 	    else:
 		raise ValueError('type not supported')
