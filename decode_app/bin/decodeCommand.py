@@ -73,7 +73,7 @@ class decodeCommand(StreamingCommand):
     def stream(self, events):
 	#self.logger.debug('field: %s', self)
 	for event in events:
-	    if not field in event:
+	    if not self.field in event:
 		pass
 	    elif self.type_ == "base64":
 		decrypt = self.b64(event[self.field])
